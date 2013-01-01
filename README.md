@@ -57,6 +57,12 @@ Competitors
   http://xmlsoft.org/html/libxml-HTMLparser.html
   Written on C non-strict HTML parser.
 
+### Perl
+
+* Mojo::DOM
+  http://search.cpan.org/~sri/Mojolicious-3.70/lib/Mojo/DOM.pm
+  Written on Perl DOM parser, part of Mojolicious framework
+
 ### Google Go
 
 * gokogiri
@@ -77,15 +83,39 @@ Competitors
 * fast-tagsoup
   http://hackage.haskell.org/package/fast-tagsoup
 
+### Java
+
+* JSoup http://jsoup.org/
+
+### Dart
+
+* html5lib.dart
+  https://github.com/dart-lang/html5lib
+  Written on pure dart port of python's html5lib.py
+
+### Mono
+
+* Html Agility Pack http://htmlagilitypack.codeplex.com
+* SGMLReader https://github.com/MindTouch/SGMLReader
+
 Preparation
 -----------
 
 Install OS dependencies python-virtualenv, erlang, pypy, C compiler and libxml2
 dev packages
 
-    sudo apt-get install python-virtualenv python-lxml erlang-base pypy \
-        libxml2-dev libxslt1-dev build-essential nodejs npm cabal-install libicu-dev \
-        php5-cli php5-tidy golang ruby1.9.1 ruby1.9.1-dev rubygems1.9.1
+    sudo apt-get install ...
+        libxml2-dev libxslt1-dev build-essential  # common
+        python-virtualenv python-lxml             # python
+        erlang-base                               # erlang
+        pypy                                      # python PyPy
+        nodejs npm                                # NodeJS
+        cabal-install libicu-dev                  # Haskell
+        php5-cli php5-tidy                        # PHP
+        golang                                    # Go
+        ruby1.9.1 ruby1.9.1-dev rubygems1.9.1     # Ruby
+        maven2 default-jdk                        # Java
+        mono-runtime mono-dmcs                    # Mono
 
 Then run (it will prepare virtual environments, fetch dependencies, compile sources etc)
 
@@ -112,17 +142,25 @@ To run tests only for some of the platforms, define PLATFORMS envifonment variab
 
     PLATFORMS="pypy python" ./run.sh 5000
 
+To run series of tests use snippets like
+
+    for C in $(echo "10 50 100 400 600 1000"); do ./run.sh $C | tee output_$C.txt; done
+
 Results
 -------
 
 To convert results to CSV file, use `to_csv.py`
 
-    ./run.sh 5000 2>&1 | ./to_csv.py
+    ./run.sh 5000 | ./to_csv.py
 
 or smth like
 
-    ./run.sh 2>&1 | tee output.txt
+    ./run.sh 5000 | tee output.txt
     ./to_csv.py < output.txt
+
+or, for series
+
+    for C in $(echo "10 50 100 400 600 1000"); do ./to_csv.py < output_$C.txt > results-$C.csv; done
 
 There is also R - script that can build some pretty graphs: `stats/main.r`.
 
